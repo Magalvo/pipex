@@ -6,7 +6,7 @@
 /*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:22:50 by dde-maga          #+#    #+#             */
-/*   Updated: 2024/04/03 16:20:50 by dde-maga         ###   ########.fr       */
+/*   Updated: 2024/04/11 18:04:43 by dde-maga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <sys/wait.h>
 #include <errno.h>
 #include <stdio.h>
-#include <sys/types.h>
+
 #include <sys/stat.h>
 #include <fcntl.h>
 #include "../lib/libft.h"
@@ -46,12 +46,12 @@ struct				s_cmds
 
 struct				s_pipe
 {	
-	char			*args;
+	char			**args;
 	t_cmds			*command;
 	struct s_pipe	*prev;
 	struct s_pipe	*next;
 };
 
-
+char	*pipe_parsing(char **argv, char **envp);
 
 #endif

@@ -6,14 +6,14 @@
 /*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:36:14 by dde-maga          #+#    #+#             */
-/*   Updated: 2024/04/03 18:16:09 by dde-maga         ###   ########.fr       */
+/*   Updated: 2024/04/11 18:00:09 by dde-maga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/pipex.h"
 
 
-void	pipe_parsing(char **argv, char **envp)
+char	*pipe_parsing(char **argv, char **envp)
 {
 	char	**paths;
 	char	**args;
@@ -35,12 +35,17 @@ void	pipe_parsing(char **argv, char **envp)
 		i++;
 	}
 	args = ft_split(argv[2], ' ');
+	
 	i = -1;
 	char *cmd;
 	while (paths[++i])
 	{
-		cmd = ft_strjoin()
+		cmd = ft_strjoin(paths[i], args[0]);
+		if (execve(cmd, args, envp) == -1)
+			perror("execve fail: \n");
+		free(cmd);
 	}
+	exit(EXIT_FAILURE);
 }
 
 
@@ -48,7 +53,7 @@ void	pipex(int fd1, int fd2, char **argv, char **envp)
 {
 	int		fd[2];
 	pid_t	child1;
-	
+	pid_t	child2;
 	
 	pipe_parsing(argv, envp);
 	
@@ -56,22 +61,41 @@ void	pipex(int fd1, int fd2, char **argv, char **envp)
 	child1 = fork();
 	if (child1 < 0 || !fd1 || !fd2)
 		return (perror("Fork: "));
+	if (child1 == 0)
+	{
+		close(fd[0]);
+		
+	}
+	
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	int	fd1;
-	int fd2;
+	pid_t	*pids;
+	int		fd1;
+	int		fd2;
+	int		*fds[2];
+	int		i;
 	
-	if (argc != 5)
-		return (0);
 	fd1 = open(argv[1], O_RDONLY);
-	fd2 = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, S_IRWXU);
+	fd2 = open(argv[argc-1], O_CREAT | O_RDWR | O_TRUNC, S_IRWXU);
 	
+	pipe(fds);
 	if (fd1 == -1 || fd2 == -1)
 		return (perror("Error:"), -1);
-		
-	pipex(fd1, fd2, argv, envp);
+	
+	pids = malloc(sizeof(int) * argc - 5);
+	if (!pids)
+		perror("Allocation Error: ");
+	while (i < argc - 5)
+	{
+		pids[i]= fork();
+	}
+	
+
+
+	
+	//pipex(fd1, fd2, argv, envp);
 	
 	return (0);
 }
