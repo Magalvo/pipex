@@ -6,7 +6,7 @@
 /*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:36:14 by dde-maga          #+#    #+#             */
-/*   Updated: 2024/04/11 18:00:09 by dde-maga         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:51:13 by dde-maga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,44 +49,52 @@ char	*pipe_parsing(char **argv, char **envp)
 }
 
 
-void	pipex(int fd1, int fd2, char **argv, char **envp)
+int	arg_check(char **argv, t_pipex *pipex)
 {
-	int		fd[2];
-	pid_t	child1;
-	pid_t	child2;
-	
-	pipe_parsing(argv, envp);
-	
-	pipe(fd);
-	child1 = fork();
-	if (child1 < 0 || !fd1 || !fd2)
-		return (perror("Fork: "));
-	if (child1 == 0)
+	if (argv && !ft_strncmp("here_doc", argv[1], 9))
+		return (pipex->here_doc = 1, 6);
+	else 
+		return (pipex->here_doc = 0, 5);
+}
+
+void	error_msg(char *str)
+{
+	perror(str);
+	exit(EXIT_FAILURE);
+}
+
+int	ft_infile(t_pipex *pipex, char **argv)
+{
+	if (pipex->here_doc)
+		here_doc(argv[1], pipex);
+	else
 	{
-		close(fd[0]);
-		
+		pipex->infile = open(argv[1], O_RDONLY);
+		if (pipex->infile < 0)
+			error_msg("infile err");
 	}
-	
+		
+}
+int	ft_outfile(t_pipex *pipex, char *argv)
+{
+	if (pipex->here_doc)
+		pipex->outfile = open(argv, O_WRONLY | O_RDONLY | O_APPEND, S_IRWXU);
+	else
+		pipex->outfile = open(argv, O_CREAT | O_RDWR | O_TRUNC, S_IRWXU);
+	if (pipex->here_doc < 0)
+		error_msg("outfile err");
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	pid_t	*pids;
-	int		fd1;
-	int		fd2;
-	int		*fds[2];
-	int		i;
+	static t_pipex	pipex;
 	
-	fd1 = open(argv[1], O_RDONLY);
-	fd2 = open(argv[argc-1], O_CREAT | O_RDWR | O_TRUNC, S_IRWXU);
+	if (argc < arg_check(argv[1], &pipex))
+		ft_putchar_fd("Number or args", 2);
 	
-	pipe(fds);
-	if (fd1 == -1 || fd2 == -1)
-		return (perror("Error:"), -1);
-	
-	pids = malloc(sizeof(int) * argc - 5);
-	if (!pids)
-		perror("Allocation Error: ");
+	ft_infile(&pipex, argv);
+	ft_outfile(&pipex, argv[argc-1]);	
+
 	while (i < argc - 5)
 	{
 		pids[i]= fork();

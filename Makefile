@@ -6,7 +6,7 @@
 #    By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/25 16:18:50 by dde-maga          #+#    #+#              #
-#    Updated: 2024/04/03 16:48:14 by dde-maga         ###   ########.fr        #
+#    Updated: 2024/04/16 16:16:09 by dde-maga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,10 @@ NAME = pipex
 LIB_SRCS =  ft_strlen.c ft_putchar_fd.c ft_putstr_fd.c ft_memset.c \
 			ft_calloc.c ft_strdup.c ft_itoa.c ft_split.c \
 			ft_strncmp.c ft_substr.c ft_strjoin.c 
+SRC_GNL =	gnl_utils.c gnl.c
 
-SRC = $(addprefix ./lib/, $(LIB_SRCS)) \
+SRC =	$(addprefix ./lib/, $(LIB_SRCS)) \
+		$(addprefix ./lib/get_next_line, $(SRC_GNL))\
 
 SRCOBJ = obj/
 CC = gcc
