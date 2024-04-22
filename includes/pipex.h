@@ -6,7 +6,7 @@
 /*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:22:50 by dde-maga          #+#    #+#             */
-/*   Updated: 2024/04/16 15:23:30 by dde-maga         ###   ########.fr       */
+/*   Updated: 2024/04/22 18:31:19 by dde-maga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,19 @@ typedef	struct	s_cmds	t_cmds;
 
 struct				s_pipex
 {	
+	pid_t			pid1;
+	pid_t			pid2;
 	char			**cmd_paths;
 	char			*cmd;
 	char			**cmd_args;
+	int				pipxfd[2];
 	int				infile;
 	int				outfile;
 	int				here_doc;
 };
 
-char	*pipe_parsing(char **argv, char **envp);
+char	*pipe_parsing(t_pipex *pipx, char **argv, char **envp);
+
+
 
 #endif

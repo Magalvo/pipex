@@ -6,7 +6,7 @@
 /*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:36:14 by dde-maga          #+#    #+#             */
-/*   Updated: 2024/04/16 16:51:13 by dde-maga         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:25:23 by dde-maga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	main(int argc, char **argv, char **envp)
 	
 	if (argc < arg_check(argv[1], &pipex))
 		ft_putchar_fd("Number or args", 2);
-	
+		paths= 
 	ft_infile(&pipex, argv);
 	ft_outfile(&pipex, argv[argc-1]);	
 

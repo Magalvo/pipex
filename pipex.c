@@ -6,7 +6,7 @@
 /*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:18:34 by dde-maga          #+#    #+#             */
-/*   Updated: 2024/04/02 17:21:53 by dde-maga         ###   ########.fr       */
+/*   Updated: 2024/04/18 13:29:44 by dde-maga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	int	i;
 	int	partSize = arrSize / 3; 
 
+	
 	if (pipe(fd1) == -1 || pipe(fd2) == -1)
 		return (1);
 

@@ -1,6 +1,7 @@
 {
   "files.associations": {
     "*.jsx": "javascriptreact",
-    "unistd.h": "c"
+    "unistd.h": "c",
+    "pipex.h": "c"
   }
 }
