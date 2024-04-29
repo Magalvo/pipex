@@ -4,10 +4,12 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include "./includes/pipex.h"
+
 
 #define DEFAULT_BUFFER_SIZE 4096
 
-void	execute_command(int in_fd, int out_fd, char *command[])
+void	execute_command(int in_fd, int out_fd, char **command)
 {
 	pid_t	pid;
 
@@ -18,27 +20,23 @@ void	execute_command(int in_fd, int out_fd, char *command[])
 		exit(EXIT_FAILURE);
 	}
 	else if (pid == 0)
-	{ // Child process
-		// Redirect input from in_fd (if not the first command)
+	{ 
 		if (in_fd != STDIN_FILENO)
 		{
 			dup2(in_fd, STDIN_FILENO);
 			close(in_fd);
 		}
-		// Redirect output to out_fd (if not the last command)
 		if (out_fd != STDOUT_FILENO)
 		{
 			dup2(out_fd, STDOUT_FILENO);
 			close(out_fd);
 		}
-		execve()
-	
 		perror("execvp");
 		exit(EXIT_FAILURE);
 	}
 }
 
-int	main(int argc, char *argv[])
+int	main(int argc, char **argv)
 {
 	char	*infile;
 	char	*outfile;

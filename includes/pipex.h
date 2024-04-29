@@ -6,7 +6,7 @@
 /*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:22:50 by dde-maga          #+#    #+#             */
-/*   Updated: 2024/04/22 18:31:19 by dde-maga         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:47:48 by dde-maga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include "../lib/libft.h"
+#include "../lib/gnl/gnl.h"
 
 #ifndef BUFFER_SIZE
 #define BUFFER_SIZE 2
@@ -49,10 +50,15 @@ struct				s_pipex
 	int				infile;
 	int				outfile;
 	int				here_doc;
+	int				cmd_nbr;
+	int				pipe_nbr;
+	int				*pipes;
 };
 
 char	*pipe_parsing(t_pipex *pipx, char **argv, char **envp);
 
-
+void	free_parent(t_pipex *pipx);
+void	free_child(t_pipex *pipx);
+void	exit_error(char *str);
 
 #endif

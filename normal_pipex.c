@@ -6,7 +6,7 @@
 /*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:39:18 by dde-maga          #+#    #+#             */
-/*   Updated: 2024/04/22 19:41:37 by dde-maga         ###   ########.fr       */
+/*   Updated: 2024/04/29 17:03:08 by dde-maga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,12 @@ void	first_command(t_pipex pipx, char **argv, char **envp)
 	find_paths(&pipx, envp);
 	pipx.cmd_args = ft_split(argv[2], ' ');
 	pipx.cmd = cmd_path(&pipx);
-	// if (!pipx.cmd)
-	// {
-	// 	free_child(&pipx);
-	// 	exit_error("command");
-	// 	exit (EXIT_FAILURE);
-	// }
+	if (!pipx.cmd)
+	{
+		free_child(&pipx);
+		exit_error("command");
+		exit (EXIT_FAILURE);
+	}
 	if (execve(pipx.cmd, pipx.cmd_args, envp) == -1)
 		exit_error("execution");
 }
@@ -111,12 +111,12 @@ void	second_command(t_pipex pipx, char **argv, char **envp)
 	find_paths(&pipx, envp);
 	pipx.cmd_args = ft_split(argv[3], ' ');
 	pipx.cmd = cmd_path(&pipx);
-	// if (!pipx.cmd)
-	// {
-	// 	free_child(&pipx);
-	// 	exit_error("command");
-	// 	exit (EXIT_FAILURE);
-	// }
+	if (!pipx.cmd)
+	{
+		free_child(&pipx);
+		exit_error("command");
+		exit (EXIT_FAILURE);
+	}
 	if (execve(pipx.cmd, pipx.cmd_args, envp) == -1)
 		exit_error("execution");
 }
@@ -127,8 +127,9 @@ int main(int argc, char **argv, char **envp)
 	int in;
 	int out;
 	int pipesfd[2];
-	int pid1;
-	int	pid2;
+	pid_t pid1;
+	pid_t pid2;
+	
 	
 	if (argc < 5)
 		exit_error("num of args");
@@ -168,6 +169,7 @@ int main(int argc, char **argv, char **envp)
 		execve(pipx.cmd,pipx.cmd_args,envp);
 		exit(0);
 	}
+	close(pipesfd[0]);
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
 	// pipe(pipx.pipxfd);

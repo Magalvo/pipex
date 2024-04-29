@@ -6,7 +6,7 @@
 /*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 17:33:44 by dde-maga          #+#    #+#             */
-/*   Updated: 2024/04/22 18:37:33 by dde-maga         ###   ########.fr       */
+/*   Updated: 2024/04/23 11:42:42 by dde-maga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*pipe_parsing(t_pipex *pipx, char **argv, char **envp)
 		i++;
 	}
 	pipx->cmd_paths = paths;
-	return (args[0]);
+	return (NULL);
 }
 	/*
 	i = -1;
