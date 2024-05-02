@@ -6,7 +6,7 @@
 /*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:36:14 by dde-maga          #+#    #+#             */
-/*   Updated: 2024/04/24 14:41:27 by dde-maga         ###   ########.fr       */
+/*   Updated: 2024/05/02 19:13:15 by dde-maga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,25 @@ char	*env_paths(t_pipex *pipx, char **argv, char **envp)
 		i++;
 	}
 	pipx->cmd_paths = paths;
+	return (NULL);
+}
+
+static char	*cmd_path(t_pipex *pipx)
+{
+	char	*cmd;
+	char	*firstarg;
+	char	**paths;
+	
+	paths= pipx->cmd_paths;
+	firstarg = pipx->cmd_args[0];
+	while (*paths)
+	{
+		cmd = ft_strjoin(*paths, firstarg);
+		if (access(cmd, 0) == 0)
+			return (cmd);
+		free(cmd);
+		paths++;
+	}
 	return (NULL);
 }
 
@@ -96,12 +115,31 @@ int	ft_outfile(t_pipex *pipex, char *argv)
 		error_msg("outfile err");
 }
 
+static void	pipe_creation(t_pipex *pipex)
+{
+	int	ctd;
+
+	ctd = 0;
+	while (ctd < (pipex->cmd_nbr) - 1)
+	{
+		if (pipe(pipex->pipes + 2 * ctd) < 0)
+			parent_free(pipex);
+		ctd++;
+	}
+}
+
+static	void ft_dup2(int zero, int first)
+{
+	dup2(zero, 0);
+	dup2(first, 1);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	static t_pipex	pipex;
 	
 	if (argc < arg_check(argv[1], &pipex))
-		ft_putchar_fd("Number or args", 2);
+		ft_putstr_fd("Number or args", 2);
 	
 	ft_infile(&pipex, argv);
 	ft_outfile(&pipex, argv[argc-1]);	
@@ -113,6 +151,8 @@ int	main(int argc, char **argv, char **envp)
 	env_paths(&pipex, argv, envp);
 	if(!pipex.cmd_paths)
 		free_pipes(&pipex);
+	pipe_creation(&pipex);
+	pipex.id_n = -1;
 	
 	
 
