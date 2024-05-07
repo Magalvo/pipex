@@ -6,7 +6,7 @@
 /*   By: dde-maga <dde-maga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 16:22:50 by dde-maga          #+#    #+#             */
-/*   Updated: 2024/05/02 18:23:22 by dde-maga         ###   ########.fr       */
+/*   Updated: 2024/05/07 13:41:27 by dde-maga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,6 @@ char	*pipe_parsing(t_pipex *pipx, char **argv, char **envp);
 void	free_parent(t_pipex *pipx);
 void	free_child(t_pipex *pipx);
 void	exit_error(char *str);
+void	free_pipes(t_pipex *pipex);
 
 #endif
